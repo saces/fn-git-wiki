@@ -19,7 +19,7 @@ The fellowing [gems][] are required to run git-wiki:
 - [Sinatra][]
 - [grit][]
 - [HAML][]
-- [WickiCloth][]
+- [WikiCloth][]
 - [builder][]
 
 Run with `mkdir ~/wikidir && cd ~/wikidir && git init && path/to/run.ru -o127.0.0.1 -sthin -p4567`
