@@ -25,8 +25,8 @@ The fellowing [gems][] are required to run git-wiki:
 - [WickiCloth][]
 - [builder][]
 
-Run with `mkdir ~/wiki && (cd ~/wiki && git init) && ./run.ru -sthin -p4567`
-and point your browser at <http://0.0.0.0:4567/>. Enjoy!
+Run with `mkdir ~/wiki && (cd ~/wiki && git init) && ./run.ru -o127.0.0.1 -sthin -p4567`
+and point your browser at <http://127.0.0.1:4567/>. Enjoy!
 
 See also
 --------
