@@ -20,9 +20,10 @@ Install
 The fellowing [gems][] are required to run git-wiki:
 
 - [Sinatra][]
-- [mojombo-grit][]
+- [grit][]
 - [HAML][]
-- [RDiscount][]
+- [WickiCloth][]
+- [builder][]
 
 Run with `mkdir ~/wiki && (cd ~/wiki && git init) && ./run.ru -sthin -p4567`
 and point your browser at <http://0.0.0.0:4567/>. Enjoy!
