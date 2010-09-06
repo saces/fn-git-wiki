@@ -75,7 +75,7 @@ module GitWiki
     end
 
     def to_html
-      RDiscount.new(wiki_link(content)).to_html
+      RDiscount.new(content).to_html
     end
 
     def to_s
@@ -114,13 +114,6 @@ module GitWiki
 
       def commit_message
         new? ? "Created #{name}" : "Updated #{name}"
-      end
-
-      def wiki_link(str)
-        str.gsub(/([A-Z][a-z]+[A-Z][A-Za-z0-9]+)/) { |page|
-          %Q{<a class="#{self.class.css_class_for(page)}"} +
-            %Q{href="/#{page}">#{page}</a>}
-        }
       end
   end
 
