@@ -206,6 +206,7 @@ __END__
 %html
   %head
     %title= title
+    %style{ :type => "text/css" } .editsection { display: none; }
   %body
     %ul
       %li
