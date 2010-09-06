@@ -4,15 +4,12 @@ git-wiki: because who needs cool names when you use git?
 git-wiki is a wiki that relies on git to keep pages' history
 and [Sinatra][] to serve them.
 
-I wrote git-wiki as a quick and dirty hack, mostly to play with Sinatra.
+Sr wrote git-wiki as a quick and dirty hack, mostly to play with Sinatra.
 It turned out that Sinatra is an awesome little web framework and that this
 hack isn't as useless as I first though since I now use it daily.
 
 However, it is definitely not feature rich and will probably never be because
-I mostly use it as a web frontend for `git`, `ls` and `vim`.
-
-If you want history, search, etc. you should look at other people's [forks][],
-especially [al3x][]'s one.
+Sr mostly use it as a web frontend for `git`, `ls` and `vim`.
 
 Install
 -------
@@ -25,7 +22,7 @@ The fellowing [gems][] are required to run git-wiki:
 - [WickiCloth][]
 - [builder][]
 
-Run with `mkdir ~/wiki && (cd ~/wiki && git init) && ./run.ru -o127.0.0.1 -sthin -p4567`
+Run with `mkdir ~/wikidir && cd ~/wikidir && git init && path/to/run.ru -o127.0.0.1 -sthin -p4567`
 and point your browser at <http://127.0.0.1:4567/>. Enjoy!
 
 See also
@@ -41,9 +38,10 @@ See also
   [forks]: http://github.com/sr/git-wiki/network
   [al3x]: http://github.com/al3x/gitwiki
   [gems]: http://www.rubygems.org/
-  [mojombo-grit]: http://github.com/mojombo/grit
+  [grit]: http://github.com/mojombo/grit
   [HAML]: http://haml.hamptoncatlin.com
-  [RDiscount]: http://github.com/rtomayko/rdiscount
+  [WikiCloth]: http://github.com/nricciar/wikicloth
+  [builder]: http://builder.rubyforge.org/
   [tip]: http://wiki.infogami.com/using_lynx_&_vim_with_infogami
   [WiGit]: http://el-tramo.be/software/wigit
   [ikiwiki]: http://ikiwiki.info
