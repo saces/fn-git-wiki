@@ -1,7 +1,7 @@
 require "sinatra/base"
 require "haml"
 require "grit"
-require "rdiscount"
+require "wikicloth"
 
 module GitWiki
   class << self
@@ -75,7 +75,9 @@ module GitWiki
     end
 
     def to_html
-      RDiscount.new(content).to_html
+      WikiCloth::Parser.new({ 
+          :data => content
+        }).to_html
     end
 
     def to_s
