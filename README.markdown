@@ -22,7 +22,7 @@ The fellowing [gems][] are required to run git-wiki:
 - [WikiCloth][]
 - [builder][]
 
-Run with `mkdir ~/wikidir && cd ~/wikidir && git init && path/to/run.ru -o127.0.0.1 -sthin -p4567`
+Run with `mkdir ~/wikidir && cd ~/wikidir && git init && mkdir jSite && path/to/run.ru -o127.0.0.1 -sthin -p4567`
 and point your browser at <http://127.0.0.1:4567/>. Enjoy!
 
 See also

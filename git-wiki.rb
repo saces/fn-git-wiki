@@ -5,12 +5,13 @@ require "wikicloth"
 
 module GitWiki
   class << self
-    attr_accessor :homepage, :extension, :repository
+    attr_accessor :homepage, :extension, :exportdir, :repository
   end
 
-  def self.new(repository, extension, homepage)
+  def self.new(repository, exportdir, extension, homepage)
     self.homepage   = homepage
     self.extension  = extension
+    self.exportdir  = exportdir
     self.repository = Grit::Repo.new(repository)
 
     App
@@ -51,6 +52,10 @@ module GitWiki
 
     def self.repository
       GitWiki.repository || raise
+    end
+
+    def self.exportdir
+      GitWiki.exportdir || raise
     end
 
     def self.extension
@@ -102,12 +107,12 @@ module GitWiki
       add_to_index_and_commit!
     end
 
-    def file_name2(ext)
-      File.join(self.class.repository.working_dir, name + ext)
+    def file_name_export(ext)
+      File.join(self.class.exportdir, name + ext)
     end
 
-    def file_name3(n)
-      File.join(self.class.repository.working_dir, n)
+    def file_name_export2(n)
+      File.join(self.class.exportdir, n)
     end
 
     private
@@ -174,11 +179,11 @@ module GitWiki
       @page.update_content(params[:body])
       @request = Rack::MockRequest.new(self)
       str = @request.request('get', params[:page] + '/export').body
-      File.open(@page.file_name2(".html"), "w") { |f| f << str }
+      File.open(@page.file_name_export(".html"), "w") { |f| f << str }
       if isnew
         @request = Rack::MockRequest.new(self)
         str = @request.request('get', '/allpages').body
-        File.open(@page.file_name3("allpages.html"), "w") { |f| f << str }
+        File.open(@page.file_name_export2("allpages.html"), "w") { |f| f << str }
       end
       redirect "/#{@page}"
     end
