@@ -100,6 +100,14 @@ module GitWiki
       add_to_index_and_commit!
     end
 
+    def file_name2(ext)
+      File.join(self.class.repository.working_dir, name + ext)
+    end
+
+    def file_name3(n)
+      File.join(self.class.repository.working_dir, n)
+    end
+
     private
       def add_to_index_and_commit!
         Dir.chdir(self.class.repository.working_dir) {
@@ -130,13 +138,15 @@ module GitWiki
 
     before do
       content_type "text/html", :charset => "utf-8"
+      s = request.path_info.chomp(".html")
+      request.path_info = s
     end
 
     get "/" do
       redirect "/" + GitWiki.homepage
     end
 
-    get "/pages" do
+    get "/allpages" do
       @pages = Page.find_all
       haml :list
     end
@@ -146,6 +156,11 @@ module GitWiki
       haml :edit
     end
 
+    get "/:page/export" do
+      @page = Page.find(params[:page])
+      haml :export
+    end
+
     get "/:page" do
       @page = Page.find(params[:page])
       haml :show
@@ -153,7 +168,16 @@ module GitWiki
 
     post "/:page" do
       @page = Page.find_or_create(params[:page])
+      isnew = @page.new?
       @page.update_content(params[:body])
+      @request = Rack::MockRequest.new(self)
+      str = @request.request('get', params[:page] + '/export').body
+      File.open(@page.file_name2(".html"), "w") { |f| f << str }
+      if isnew
+        @request = Rack::MockRequest.new(self)
+        str = @request.request('get', '/allpages').body
+        File.open(@page.file_name3("allpages.html"), "w") { |f| f << str }
+      end
       redirect "/#{@page}"
     end
 
@@ -164,7 +188,7 @@ module GitWiki
       end
 
       def list_item(page)
-        %Q{<a class="page_name" href="/#{page}">#{page.name}</a>}
+        %Q{<a class="page_name" href="#{page}.html">#{page.name}</a>}
       end
   end
 end
@@ -178,15 +202,21 @@ __END__
   %body
     %ul
       %li
-        %a{ :href => "/#{GitWiki.homepage}" } Home
+        %a{ :href => "#{GitWiki.homepage}"+".html" } Home
       %li
-        %a{ :href => "/pages" } All pages
+        %a{ :href => "allpages.html" } All pages
     #content= yield
 
 @@ show
 - title @page.name
 #edit
-  %a{:href => "/#{@page}/edit"} Edit this page
+  %a{:href => "#{@page}/edit"} Edit this page
+%h1= title
+#content
+  ~"#{@page.to_html}"
+
+@@ export
+- title @page.name
 %h1= title
 #content
   ~"#{@page.to_html}"
@@ -200,7 +230,7 @@ __END__
   %p
     %input.submit{:type => :submit, :value => "Save as the newest version"}
     or
-    %a.cancel{:href=>"/#{@page}"} cancel
+    %a.cancel{:href=>"#{@page}"} cancel
 
 @@ list
 - title "Listing pages"
