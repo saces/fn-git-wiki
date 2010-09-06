@@ -4,9 +4,9 @@ git-wiki: because who needs cool names when you use git?
 git-wiki is a wiki that relies on git to keep pages' history
 and [Sinatra][] to serve them.
 
-Sr wrote git-wiki as a quick and dirty hack, mostly to play with Sinatra.
+[Sr] wrote [GitHub][git-wiki] as a quick and dirty hack, mostly to play with Sinatra.
 It turned out that Sinatra is an awesome little web framework and that this
-hack isn't as useless as I first though since I now use it daily.
+hack isn't as useless as Sr first though since Sr now use it daily.
 
 However, it is definitely not feature rich and will probably never be because
 Sr mostly use it as a web frontend for `git`, `ls` and `vim`.
@@ -35,7 +35,7 @@ See also
 
   [Sinatra]: http://www.sinatrarb.com
   [GitHub]: http://github.com/sr/git-wiki
-  [forks]: http://github.com/sr/git-wiki/network
+  [Sr]: http://github.com/sr
   [al3x]: http://github.com/al3x/gitwiki
   [gems]: http://www.rubygems.org/
   [grit]: http://github.com/mojombo/grit
