@@ -183,17 +183,23 @@ module GitWiki
 
     post "/:page" do
       @page = Page.find_or_create(params[:page])
-      isnew = @page.new?
-      @page.update_content(params[:body])
-      @request = Rack::MockRequest.new(self)
-      str = @request.request('get', params[:page] + '/export').body
-      File.open(@page.file_name_export(".html"), "w") { |f| f << str }
-      if isnew
+      if params[:save]
+        @page = Page.find_or_create(params[:page])
+        isnew = @page.new?
+        @page.update_content(params[:body])
         @request = Rack::MockRequest.new(self)
-        str = @request.request('get', '/allpages').body
-        File.open(@page.file_name_export2("allpages.html"), "w") { |f| f << str }
+        str = @request.request('get', params[:page] + '/export').body
+        File.open(@page.file_name_export(".html"), "w") { |f| f << str }
+        if isnew
+          @request = Rack::MockRequest.new(self)
+          str = @request.request('get', '/allpages').body
+          File.open(@page.file_name_export2("allpages.html"), "w") { |f| f << str }
+        end
+        redirect "/#{@page}"
+      elsif params[:preview]
+        @previewcontent =  params[:body]
+        haml :preview
       end
-      redirect "/#{@page}"
     end
 
     private
@@ -214,7 +220,7 @@ __END__
 %html
   %head
     %title= title
-    %link{ :rel => "stylesheet", :type => "text/css", :href => "static/" + GitWiki.cssname } <!-- force -->
+    %link{ :rel => "stylesheet", :type => "text/css; charset=utf-8", :href => "static/" + GitWiki.cssname } <!-- force -->
   %body
     %ul
       %li
@@ -244,9 +250,27 @@ __END__
   %p
     %textarea{:name => 'body', :rows => 30, :style => "width: 100%"}= @page.content
   %p
-    %input.submit{:type => :submit, :value => "Save as the newest version"}
+    %input.submit{:type => :submit, :name => "save", :value => "Save as the newest version"}
     or
-    %a.cancel{:href=>"#{@page}"} cancel
+    %input.submit{:type => :submit, :name => "preview", :value => "Preview"}
+    or
+    %a.cancel{:href=>"/#{@page}"} cancel
+
+@@ preview
+- title "Preview #{@page.name}"
+%h1= title
+#content
+  ~"#{WikiCloth::Parser.new({ :data => @previewcontent }).to_html}"
+%hr
+%form{:method => 'POST', :action => "/#{@page}"}
+  %p
+    %textarea{:name => 'body', :rows => 30, :style => "width: 100%"}= @previewcontent
+  %p
+    %input.submit{:type => :submit, :name => "save", :value => "Save as the newest version"}
+    or
+    %input.submit{:type => :submit, :name => "preview", :value => "Preview"}
+    or
+    %a.cancel{:href=>"/#{@page}"} cancel
 
 @@ list
 - title "Listing pages"
