@@ -2,16 +2,19 @@ require "sinatra/base"
 require "haml"
 require "grit"
 require "wikicloth"
+require 'mime/types'
 
 module GitWiki
   class << self
-    attr_accessor :homepage, :extension, :exportdir, :repository
+    attr_accessor :cssname, :homepage, :extension, :exportdir, :reposdir, :repository
   end
 
-  def self.new(repository, exportdir, extension, homepage)
+  def self.new(repository, exportdir, extension, homepage, cssname)
+    self.cssname    = cssname
     self.homepage   = homepage
     self.extension  = extension
     self.exportdir  = exportdir
+    self.reposdir   = repository
     self.repository = Grit::Repo.new(repository)
 
     App
@@ -153,6 +156,11 @@ module GitWiki
       redirect "/" + GitWiki.homepage
     end
 
+    get "/static/:page" do
+      content_type MIME::Types.type_for(params[:page])
+      File.read(File.join(GitWiki.reposdir, 'static', params[:page]))
+    end
+
     get "/allpages" do
       @pages = Page.find_all
       haml :list
@@ -206,7 +214,7 @@ __END__
 %html
   %head
     %title= title
-    %style{ :type => "text/css" } .editsection { display: none; }
+    %link{ :rel => "stylesheet", :type => "text/css", :href => "static/" + GitWiki.cssname } <!-- force -->
   %body
     %ul
       %li
