@@ -1,40 +1,52 @@
 fn-git-wiki: because who needs cool names when you use freenet and git?
-========================================================
+======================================================================
 
-fn-git-wiki is a simple wiki that relies on git to keep pages' history
-and [Sinatra][] to serve them.
-
-[Sr] wrote [GitHub][git-wiki] as a quick and dirty hack, mostly to play with Sinatra.
-It turned out that Sinatra is an awesome little web framework and that this
-hack isn't as useless as Sr first though since Sr now use it daily.
-
-However, it is definitely not feature rich and will probably never be because
-Sr mostly use it as a web frontend for `git`, `ls` and `vim`.
+fn-git-wiki is a simple wiki with MediaWiki syntax that relies on git to keep pages' history.
+It also maintains a static mirror for freenet insertion as freesite.
 
 Install
 -------
 
-The fellowing [gems][] are required to run git-wiki:
+The fellowing [gems][] are required to run fn-git-wiki:
 
+- [Thin][]
+- [Rack][]
 - [Sinatra][]
 - [grit][]
 - [HAML][]
 - [WikiCloth][]
 - [builder][]
 
-Run with `mkdir ~/wikidir && cd ~/wikidir && git init && mkdir jSite && path/to/run.ru -o127.0.0.1 -sthin -p4567`
+Prepare wiki
+------------
+
+Create a new directory for your wiki `mkdir ~/wikidir && cd ~/wikidir && git init && mkdir jSite && mkdir static`
+
+Place your CSS (call it `wiki.css` for easy defaults) and image files in the folder `static`
+
+Copy/link the folder `static` to jSite/static. (Don't forget to update if you modify stuff in static.)
+
+Run
+---
+
+CD into the wiki dir and run with `path/to/run.ru -o127.0.0.1 -sthin -p4567`
 and point your browser at <http://127.0.0.1:4567/>. Enjoy!
+
+Upload
+------
+
+Just insert the `jSite` folder.
 
 See also
 --------
 
 - [How to use vim to edit &lt;textarea&gt; in lynx][tip]
-- [WiGit][] think git-wiki except implemented in PHP
 - [ikiwiki][] is a wiki compiler supporting git
 
-
+  [Thin]: http://code.macournoyer.com/thin/
+  [Rack]: http://rack.rubyforge.org/
   [Sinatra]: http://www.sinatrarb.com
-  [GitHub]: http://github.com/sr/git-wiki
+  [git-wiki]: http://github.com/sr/git-wiki
   [Sr]: http://github.com/sr
   [al3x]: http://github.com/al3x/gitwiki
   [gems]: http://www.rubygems.org/
@@ -46,42 +58,10 @@ See also
   [WiGit]: http://el-tramo.be/software/wigit
   [ikiwiki]: http://ikiwiki.info
 
-Quotes
-------
+Credits
+-------
 
-<blockquote>
-<p>[...] the first wiki engine I'd consider worth using for my own projects.</p>
-<p><cite>
-<a href="http://www.dekorte.com/blog/blog.cgi?do=item&amp;id=3319">
-Steve Dekorte</a>
-</cite></p>
-</blockquote>
-
-<blockquote>
-<p>Oh, it looks like <a href="http://atonie.org/2008/02/git-wiki">Git Wiki</a>
-may be the starting point for what I need...</p>
-<p><cite><a href="http://tommorris.org/blog/2008/03/09#pid2761430">
-Tom Morris on "How to build the perfect wiki"</a></cite></p>
-</blockquote>
-
-<blockquote>
-<p>What makes git-wiki so cool is because it is backed by a git store,
-you can clone your wiki just like you could any other git repository.
-I’ve always wanted a wiki that I could a.) pull offline when I didn’t
-have access to the Internets and b.) edit (perhaps in bulk)
-in my favorite text editor. git-wiki allows both.</p>
-<p><cite><a href="http://github.com/willcodeforfoo/git-wiki/wikis">
-Cloning your wiki</a></cite></p>
-</blockquote>
-
-<blockquote>
-<p>Numerous people have written diff and merge systems for wikis;
-TWiki even uses RCS. If they used git instead, the repository would be tiny, and
-you could make a personal copy of the entire wiki to take on the plane with you,
-then sync your changes back when you're done.</p>
-<p><cite><a href="http://www.advogato.org/person/apenwarr/diary/371.html">
-Git is the next Unix</a></cite></p>
-</blockquote>
+fn-git-wiki was originally forked from [Sr]'s [git-wiki]
 
 Licence
 -------
