@@ -166,19 +166,19 @@ module GitWiki
       haml :list
     end
 
-    get "/:page/edit" do
-      @page = Page.find_or_create(params[:page])
-      haml :edit
-    end
-
     get "/:page/export" do
       @page = Page.find(params[:page])
       haml :export
     end
 
     get "/:page" do
-      @page = Page.find(params[:page])
-      haml :show
+      if params[:edit]
+        @page = Page.find_or_create(params[:page])
+        haml :edit
+      else
+        @page = Page.find(params[:page])
+        haml :show
+      end
     end
 
     post "/:page" do
@@ -232,7 +232,7 @@ __END__
 @@ show
 - title @page.name
 #edit
-  %a{:href => "#{@page}/edit"} Edit this page
+  %a{:href => "#{@page}?edit=1"} Edit this page
 %h1= title
 #content
   ~"#{@page.to_html}"
