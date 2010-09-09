@@ -1,7 +1,7 @@
-git-wiki: because who needs cool names when you use git?
+fn-git-wiki: because who needs cool names when you use freenet and git?
 ========================================================
 
-git-wiki is a wiki that relies on git to keep pages' history
+fn-git-wiki is a simple wiki that relies on git to keep pages' history
 and [Sinatra][] to serve them.
 
 [Sr] wrote [GitHub][git-wiki] as a quick and dirty hack, mostly to play with Sinatra.

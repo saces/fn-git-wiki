@@ -4,7 +4,7 @@ require "grit"
 require "wikicloth"
 require 'mime/types'
 
-module GitWiki
+module FnGitWiki
   class << self
     attr_accessor :cssname, :homepage, :extension, :exportdir, :reposdir, :repository
   end
@@ -54,15 +54,15 @@ module GitWiki
     end
 
     def self.repository
-      GitWiki.repository || raise
+      FnGitWiki.repository || raise
     end
 
     def self.exportdir
-      GitWiki.exportdir || raise
+      FnGitWiki.exportdir || raise
     end
 
     def self.extension
-      GitWiki.extension || raise
+      FnGitWiki.extension || raise
     end
 
     def self.find_blob(page_name)
@@ -166,12 +166,12 @@ module GitWiki
     end
 
     get "/" do
-      redirect "/" + GitWiki.homepage
+      redirect "/" + FnGitWiki.homepage
     end
 
     get "/static/:page" do
       content_type MIME::Types.type_for(params[:page])
-      File.read(File.join(GitWiki.reposdir, 'static', params[:page]))
+      File.read(File.join(FnGitWiki.reposdir, 'static', params[:page]))
     end
 
     get "/allpages" do
@@ -234,11 +234,11 @@ __END__
 %html
   %head
     %title= title
-    %link{ :rel => "stylesheet", :type => "text/css; charset=utf-8", :href => "static/" + GitWiki.cssname } <!-- force -->
+    %link{ :rel => "stylesheet", :type => "text/css; charset=utf-8", :href => "static/" + FnGitWiki.cssname } <!-- force -->
   %body
     %ul
       %li
-        %a{ :href => "#{GitWiki.homepage}"+".html" } Home
+        %a{ :href => "#{FnGitWiki.homepage}"+".html" } Home
       %li
         %a{ :href => "allpages.html" } All pages
     #content= yield
