@@ -83,9 +83,10 @@ module GitWiki
     end
 
     def to_html
-      WikiCloth::Parser.new({ 
-          :data => content
-        }).to_html
+      WikiCloth::WikiCloth.new({ 
+        :data => content,
+        :link_handler => CustomLinkHandler.new,
+      }).to_html
     end
 
     def to_s
@@ -133,6 +134,18 @@ module GitWiki
       def commit_message
         new? ? "Created #{name}" : "Updated #{name}"
       end
+  end
+
+  class CustomLinkHandler < WikiCloth::WikiLinkHandler
+
+    def url_for(page)
+      "#{page}" + ".html"
+    end
+
+    def link_attributes_for(page)
+       { :href => url_for(page) }
+    end
+
   end
 
   class App < Sinatra::Base
@@ -198,6 +211,7 @@ module GitWiki
         redirect "/#{@page}"
       elsif params[:preview]
         @previewcontent =  params[:body]
+        @linkhandler = CustomLinkHandler.new
         haml :preview
       end
     end
@@ -260,7 +274,7 @@ __END__
 - title "Preview #{@page.name}"
 %h1= title
 #content
-  ~"#{WikiCloth::Parser.new({ :data => @previewcontent }).to_html}"
+  ~"#{WikiCloth::WikiCloth.new({ :data => @previewcontent, :link_handler => @linkhandler }).to_html}"
 %hr
 %form{:method => 'POST', :action => "/#{@page}"}
   %p
