@@ -22,8 +22,8 @@ Prepare wiki
 
 Create a new directory for your wiki `mkdir ~/wikidir && cd ~/wikidir && git init && mkdir jSite && mkdir static`
 
-Place your CSS (call it `wiki.css` for easy defaults) and image files in the folder `static`
-(you can grab a sample css here: http://github.com/downloads/saces/fn-git-wiki/wiki.css )
+Place your CSS (call it `wiki.css` for easy defaults) and image files in the folder `static`.
+(you can grab a sample css here: <http://github.com/downloads/saces/fn-git-wiki/wiki.css> )
 
 Copy/link the folder `static` to jSite/static. (Don't forget to update if you modify stuff in static.)
 
