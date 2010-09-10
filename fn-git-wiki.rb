@@ -156,7 +156,7 @@ module FnGitWiki
 
     error PageNotFound do
       page = request.env["sinatra.error"].name
-      redirect "/#{page}/edit"
+      redirect "/#{page}?edit=1"
     end
 
     before do
