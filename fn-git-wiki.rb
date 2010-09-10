@@ -235,6 +235,7 @@ __END__
   %head
     %title= title
     %link{ :rel => "stylesheet", :type => "text/css; charset=utf-8", :href => "static/" + FnGitWiki.cssname } <!-- force -->
+    %meta{ "http-equiv" => "Content-Type", :content => "text/html; charset=UTF-8" }
   %body
     %ul
       %li
