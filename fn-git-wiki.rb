@@ -106,6 +106,7 @@ module FnGitWiki
     end
 
     def update_content(new_content)
+      new_content << "\n" unless new_content[new_content.length - 1, 1] == "\n";
       return if new_content == content
       File.open(file_name, "w") { |f| f << new_content }
       add_to_index_and_commit!
